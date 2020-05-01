@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GithubFetchApi-Request</title>
+    <style>
+        .user{
+            display: flexbox;
+            background-color: aquamarine;
+            color:darkolivegreen;
+            padding: 10px;
+            border-radius: 50;
+            margin-bottom: 10px;
+        }
+        .user ul{
+            list-style: lower-greek;
+        }
+        #button{
+            font-size: large;
+            border-radius: 5px;
+            width: fit-content;
+            background-color: gold;
+            color: darkgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="button">Fetch Me Github Random Users</button>
+    <br>
+    <br>
+    <h1>Github Profiles</h1>
+    <div id="users"></div>
+
+
+    <script>
+        document.getElementById('button').addEventListener('click',
+            loadUsers);
+        // Loading Github users function
+        function loadUsers() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.github.com/users', true);
+
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    var users = JSON.parse(this.responseText);
+                    
+                    var output = '';
+                    for (var i in users) {
+                        output +=
+                            '<div class="user">' +
+                            '<img src="' + users[i].avatar_url + '" width="100" height="100" border="5" border-radius="10">'
+                            + '<ul>' +
+                            '<li>ID: ' + users[i].id + '</li>' +
+                            '<li>Username: ' + users[i].login + '</li>' +
+                            '</ul>' +
+                            '</div>';
+
+                    }
+                    document.getElementById('users').innerHTML = output;
+                }
+            }
+            xhr.send();
+        }
+
+    </script>
+</body>
+
+</html>
